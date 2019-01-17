@@ -12,3 +12,4 @@ Yi=[]
 # If the number is an x, it's added to the Xi array
 # If the number is a y, it's added to the Yi Array
 for l in f:
+    if:
