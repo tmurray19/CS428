@@ -25,9 +25,7 @@ import numpy as np
 import PIL.Image as Image
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from distance import EuclideanDistance
-from util import read_images, asRowMatrix, pca
-from models import EigenfacesModel
+
 
 
 sys.path.append("..")
@@ -116,6 +114,7 @@ def read_images(path, sz=None):
                     print("Unexpected error:", sys.exc_info()[0])
                     raise
             c = c+1
+
     return [X,y]
 
 # Function to transform a given matrix into a row or column fom
@@ -158,7 +157,7 @@ def pca(X, y, num_components = 0):
     eigenvalues = eigenvalues[0:num_components].copy()
     eigenvectors = eigenvectors[:,0:num_components].copy()
     #print(num_components)
-    print(variance)
+    #print(variance)
     return [eigenvalues, eigenvectors, mu]
 
 # For rearranging projections
@@ -201,6 +200,7 @@ def subplot(title, images, rows, cols, sptitle="subplot", sptitles=[], colormap=
         else:
             plt.title("%s #%d" % (sptitle, (i+1)), create_font('Tahoma',10))
         plt.imshow(np.asarray(images[i]), cmap=colormap)
+
     if filename is None:
         plt.show()
     else:
@@ -229,13 +229,13 @@ def imsave(image, title="", filename=None):
 
 
 
-#model = EigenfacesModel(X[1:], y[1:])
-model = EigenfacesModel(X, y)
+model = EigenfacesModel(X[1:], y[1:])
+#model = EigenfacesModel(X, y)
 
 
-print("Expected = ", y[0], "/", "Predicted =", model.predict(X[0]))
+print("Expected = ", y[40], "/", "Predicted =", model.predict(X[40]))
 
-
+"""
 E = []
 for i in range(min(len(X),16)):
     e = W[:,i].reshape(X[0].shape)
@@ -243,7 +243,7 @@ for i in range(min(len(X),16)):
 
 subplot(title="Eigenfaces AT&T Facedatabase", images=E, rows=4, cols=4, sptitle="Eigenface", colormap=cm.jet, filename="python_pca_eignefaces_color_with_personal_and_frank.pdf")
 
-
+"""
 steps = [i for i in range(10, min(len(X), 320), 20)]
 E = []
 for i in range(min(len(steps),16)):
@@ -254,4 +254,4 @@ for i in range(min(len(steps),16)):
     R = R.reshape(X[0].shape)
     E.append(normalize(R,0,255))
 
-subplot(title="Reconstruction AT&T Facedatabase", images=E, rows=4, cols=4, sptitle="Eigenvectors", sptitles=steps, colormap=cm.gray, filename="python_pca_eignefaces_with_personal_and_frank.pdf")
+subplot(title="Reconstruction AT&T Facedatabase", images=E, rows=8, cols=8, sptitle="Eigenvectors", sptitles=steps, colormap=cm.gray, filename="python_pca_eignefaces_with_personal_and_frank.pdf")
